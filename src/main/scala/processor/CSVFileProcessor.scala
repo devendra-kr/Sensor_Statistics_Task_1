@@ -9,9 +9,9 @@ trait CSVFileProcessor {
 
   def getInputFiles(dirName: String): Seq[File] = {
     val dir = new File(dirName)
-    if(!dir.isDirectory) throw new IllegalArgumentException("Invalid Directory")
-    dir.listFiles{
-      (_, name) =>name.endsWith(".csv")
+    if (!dir.isDirectory) throw new IllegalArgumentException("Invalid Directory")
+    dir.listFiles {
+      (_, name) => name.endsWith(".csv")
     }.toIndexedSeq
   }
 
@@ -24,7 +24,7 @@ trait CSVFileProcessor {
       case id :: humidity :: Nil => Measurement(id, Option(humidity.toInt))
       case _ => throw new IOException(s"Invalid format of file ${file.getName}")
     }
-      .foldLeft(outputData) (_ + _)
+      .foldLeft(outputData)(_ add _)
 
     val result = fileOutputData.copy(fileCount = fileOutputData.fileCount + 1)
     reader.close()
